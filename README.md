@@ -1,16 +1,15 @@
-# Solana Discord BONKbot
+# Jupiter v6 SWAP API using Jito Bundle
 
-BONKbot is a revolutionary trading bot designed specifically for the Solana ecosystem, bringing a new level of convenience and efficiency to crypto trading on Discord.
 
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
 
 ```
-MONGODB_URI= "mongodb+srv:// ..."
-DISCORD_TOKEN = "MTI2 ..."
-DEX_TOOL_TOKEN = "W1Gn ..."
-QUIKNODE_RPC = "https://example.solana.quiknode.pro/000000/"
+QUIKNODE_RPC = "https://example.solana-mainnet.quiknode.pro/..."
+JITO_RPC_URL = "https://mainnet.block-engine.jito.wtf/api/v1/bundle"
+JUPITER_V6_API = "https://quote-api.jup.ag/v6"
+PRIVATE_KEY = "YOUR WALLET PRIVATE KEY HERE"
 ```
 
 ## Run Locally
@@ -18,13 +17,13 @@ QUIKNODE_RPC = "https://example.solana.quiknode.pro/000000/"
 Clone the project
 
 ```bash
-  git clone https://github.com/c1ted/solanatradingbot.git
+  git clone https://github.com/gungho0619/jupiter-v6-swap-api.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd solanatradingbot
+  cd jupiter-v6-swap-api
 ```
 
 Install dependencies
@@ -44,28 +43,26 @@ Start the server
 
 ```
 
-## Features
+## API Reference
 
-### Private DM interactions:
+#### SWAP Token
 
-- /wallet show (shows your wallet)
-- /wallet new (creates new wallet)
-- /wallet export (shows private key)
-- /wallet withdraw <enter solana wallet> <solana amount>
-- /fees <allows you to change fee priority>
+```http
+  POST http://localhost:5000/swapToken
+```
 
-### Server interactions
+| Parameter | Type     | Example                |
+| :-------- | :------- | :------------------------- |
+| `inputMint` | `string` |  So11111111111111111111111111111111111111112 |
+| `outputMint` | `string` | 5XyKkFaJpAmsH4Tf2EFj3S61W3hC5cJhxNZQQ5h1pump |
+| `amount` | `number` | 0.001 |
+| `slippageBps` | `number` | 2000 |
 
-- Monitors messages for contract addresses
-- /buy <enter contract address> <solana amount>
-  Example: /buy ED5nyyWEzpPPiWimP8vYm7sD7TD3LAt3Q3gRTWHzPJBY 5 sol
-- /sell <enter contract address> <solana amount>
-  Example: /sell ED5nyyWEzpPPiWimP8vYm7sD7TD3LAt3Q3gRTWHzPJBY 5 sol
-- /portfolio (shows portfolio)
+![Demo](./swap.png)
 
 ## Tech Stack
 
-Node, Express, MongoDB, discord.js, @solana/web3
+Node, Express, TypeScript, Jupiter, Jito_Bundle, @solana/web3
 
 ## Badges
 
