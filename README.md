@@ -47,7 +47,7 @@ Start the server
 
 #### SWAP Token
 
-POST `http://localhost:5000/swapToken`
+POST ```http://localhost:5000/swapToken```
 
 | Parameter | Type     | Example                |
 | :-------- | :------- | :------------------------- |
