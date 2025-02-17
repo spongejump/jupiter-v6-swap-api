@@ -1,36 +1,60 @@
-import "dotenv/config";
-import express, { Request, Response } from "express";
-import { swapToken } from "./controllers/walletController";
+import express from 'express';
+import { buyTokens, sellTokens } from './controllers/walletController';
+import bodyParser from 'body-parser';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-app.use(express.json());
+app.use(bodyParser.json());
 
-/**
- * @route POST /swapToken
- * @desc Swap tokens using the `swapToken` function
- * @access Public
- */
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/swapToken", async (req: Request, res: Response): Promise<void> => {
-  const { inputMint, outputMint, amount, slippageBps } = req.body;
-
-  if (!inputMint || !outputMint || !amount || !slippageBps) {
-    res.status(400).json({ error: "Missing required fields." });
-    return;
-  }
-
+const startBuySellCycle = async () => {
   try {
-    await swapToken(inputMint, outputMint, parseFloat(amount), parseFloat(slippageBps));
+    console.log("Starting token purchase...");
+    await buyTokens();
+    console.log("Token purchase completed.");
 
-    res.status(200).json({ message: "Swap executed successfully." });
-  } catch (err) {
-    console.error("Error during token swap:", err);
-    res.status(500).json({ error: "Failed to execute swap.", details: err || "Unknown error" });
+    console.log("Starting token sale...");
+    await sellTokens();
+    console.log("Token sale completed.");
+  } catch (error) {
+    console.error("Error during buy-sell cycle:", error);
+  }
+};
+
+setInterval(() => {
+  startBuySellCycle();
+}, 2 * 60 * 60 * 1000);
+
+
+app.post('/buy-tokens', async (req, res) => {
+  try {
+    console.log("Manually triggering token purchase...");
+    await buyTokens();
+    res.status(200).send("Tokens successfully bought.");
+  } catch (error) {
+    console.error("Error buying tokens:", error);
+    res.status(500).send("An error occurred while buying tokens.");
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.post('/sell-tokens', async (req, res) => {
+  try {
+    console.log("Manually triggering token sale...");
+    await sellTokens();
+    res.status(200).send("Tokens successfully sold.");
+  } catch (error) {
+    console.error("Error selling tokens:", error);
+    res.status(500).send("An error occurred while selling tokens.");
+  }
+});
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the Token Swap API!');
+});
+
+// Start server
+app.listen(port, () => {
+  console.log(`App running on port ${port}`);
 });
