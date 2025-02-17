@@ -9,6 +9,7 @@ To run this project, you will need to add the following environment variables to
 QUIKNODE_RPC = "https://example.solana-mainnet.quiknode.pro/..."
 JITO_RPC_URL = "https://mainnet.block-engine.jito.wtf/api/v1/bundle"
 JUPITER_V6_API = "https://quote-api.jup.ag/v6"
+PUBLIC_KEY = "YOUR WALLET PUBLIC KEY HERE"
 PRIVATE_KEY = "YOUR WALLET PRIVATE KEY HERE"
 BIRD_EYE_API_KEY = "YOUR BIRD EYE KEY HERE (NOT FREE)"
 ```
