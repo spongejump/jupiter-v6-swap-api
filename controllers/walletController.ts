@@ -11,12 +11,6 @@ import {
     sendAndConfirmTransaction,
 } from "@solana/web3.js";
 
-import {
-    getTokenInfo,
-    getTokenPrice,
-    getTokenInfo2,
-
-} from "../config/getData";
 import { getQuote, getSwapInstructions } from "../api/jupiter_v6";
 import {
     deserializeInstruction,
@@ -25,7 +19,8 @@ import {
     createVersionedTransaction,
 } from "../config/transactionUtils";
 import { createJitoBundle, sendJitoBundle } from "../api/jitoService";
-import { TokenInfo, TokenPrice, TokenInfo2 } from "../types/tokenTypes";
+
+import { getNumberDecimals, getTokenList } from "../config/getTokenList";
 
 config();
 
@@ -47,10 +42,13 @@ const swapToken = async (inputMint: string, outputMint: string, amount: number, 
         const userWallet = Keypair.fromSecretKey(privateKeyBytes);
         const publicKey = userWallet.publicKey;
         // Step 1: Retrieve Quote from Jupiter
+
+        const inputDecimals = await getNumberDecimals(inputMint);
+
         const quoteResponse = await getQuote(
             inputMint,
             outputMint,
-            amount * LAMPORTS_PER_SOL,
+            amount * Math.pow(10, inputDecimals),
             slippageBps
         );
         if (!quoteResponse?.routePlan) {

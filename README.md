@@ -10,6 +10,7 @@ QUIKNODE_RPC = "https://example.solana-mainnet.quiknode.pro/..."
 JITO_RPC_URL = "https://mainnet.block-engine.jito.wtf/api/v1/bundle"
 JUPITER_V6_API = "https://quote-api.jup.ag/v6"
 PRIVATE_KEY = "YOUR WALLET PRIVATE KEY HERE"
+BIRD_EYE_API_KEY = "YOUR BIRD EYE KEY HERE (NOT FREE)"
 ```
 
 ## Run Locally
